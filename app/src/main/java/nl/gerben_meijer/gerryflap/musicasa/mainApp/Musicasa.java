@@ -12,17 +12,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import android.widget.MediaController;
 
+import nl.gerben_meijer.gerryflap.musicasa.MusicPlayer;
 import nl.gerben_meijer.gerryflap.musicasa.R;
 
 
 public class Musicasa extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks ,MediaController.MediaPlayerControl {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
+    private MediaController mediaController;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -37,7 +40,10 @@ public class Musicasa extends ActionBarActivity
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
-
+        mediaController = new MediaController(this);
+        mediaController.setMediaPlayer(this);
+        mediaController.setAnchorView(this.findViewById(R.id.container));
+        mediaController.setEnabled(true);
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
@@ -54,7 +60,7 @@ public class Musicasa extends ActionBarActivity
                     .commit();
         } else if(position == 1) {
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, SuggestionsFragment.newInstance(position + 1))
+                    .replace(R.id.container, PlaylistFragment.newInstance(position + 1))
                     .commit();
         } else if(position == 3) {
             fragmentManager.beginTransaction()
@@ -62,7 +68,7 @@ public class Musicasa extends ActionBarActivity
                     .commit();
         } else if(position == 4) {
         fragmentManager.beginTransaction()
-                .replace(R.id.container, UploadFragment.newInstance(position + 1))
+                .replace(R.id.container, PlayFragment.newInstance(position + 1))
                 .commit();
     }else{
             fragmentManager.beginTransaction()
@@ -126,6 +132,61 @@ public class Musicasa extends ActionBarActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void start() {
+        MusicPlayer.getInstance().getMediaPlayer().start();
+    }
+
+    @Override
+    public void pause() {
+        MusicPlayer.getInstance().getMediaPlayer().pause();
+    }
+
+    @Override
+    public int getDuration() {
+        return MusicPlayer.getInstance().getMediaPlayer().getDuration();
+    }
+
+    @Override
+    public int getCurrentPosition() {
+        return MusicPlayer.getInstance().getMediaPlayer().getCurrentPosition();
+    }
+
+    @Override
+    public void seekTo(int i) {
+        MusicPlayer.getInstance().getMediaPlayer().seekTo(i);
+    }
+
+    @Override
+    public boolean isPlaying() {
+        return MusicPlayer.getInstance().getMediaPlayer().isPlaying();
+    }
+
+    @Override
+    public int getBufferPercentage() {
+        return MusicPlayer.getInstance().getMediaPlayer().getCurrentPosition();
+    }
+
+    @Override
+    public boolean canPause() {
+        return true;
+    }
+
+    @Override
+    public boolean canSeekBackward() {
+        return true;
+    }
+
+    @Override
+    public boolean canSeekForward() {
+        return true;
+    }
+
+    @Override
+    public int getAudioSessionId() {
+        return 0;
     }
 
     /**

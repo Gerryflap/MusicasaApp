@@ -73,9 +73,11 @@ public class ServerCommunicator {
             URL url = new URL(this.url + path);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setDoInput(true);
-            conn.setDoOutput(true);
+            conn.setDoOutput(false);
             conn.setRequestMethod(method);
+
             addCookies(conn);
+            System.out.println(cookies);
             conn.connect();
             System.out.println(conn.getResponseCode());
             BufferedReader reader = new BufferedReader(
@@ -188,6 +190,10 @@ public class ServerCommunicator {
 
     public HashMap<String, String> getCookies() {
         return cookies;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }
 

@@ -8,12 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import nl.gerben_meijer.gerryflap.musicasa.MusicPlayer;
 import nl.gerben_meijer.gerryflap.musicasa.R;
 
 /**
  * Created by Gerryflap on 2015-06-12.
  */
-public class SuggestionsFragment extends Fragment {
+public class PlaylistFragment extends Fragment {
     /**
      * The fragment argument representing the section number for this
      * fragment.
@@ -24,21 +25,22 @@ public class SuggestionsFragment extends Fragment {
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static SuggestionsFragment newInstance(int sectionNumber) {
-        SuggestionsFragment fragment = new SuggestionsFragment();
+    public static PlaylistFragment newInstance(int sectionNumber) {
+        PlaylistFragment fragment = new PlaylistFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        MusicPlayer.getInstance().loadAndPlayTrack(1);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public SuggestionsFragment() {
+    public PlaylistFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_suggest, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_playlist, container, false);
         TrackAdapter listAdapter = new TrackAdapter(this.getActivity());
         ((ListView) rootView.findViewById(R.id.suggstionListView)).setAdapter(listAdapter);
         listAdapter.addItem(new Track("Swektrack van de eeuw", "Henk"));

@@ -25,7 +25,8 @@ public class LoginAsyncTask extends AsyncTask<String, Void, Boolean> {
     protected Boolean doInBackground(String... params) {
         this.params = params;
         ServerCommunicator serverCommunicator = MusicasaAppContext.getInstance().getCommunicator();
-        return serverCommunicator.logIn(params[0], params[1]);
+        serverCommunicator.setUrl(params[0]);
+        return serverCommunicator.logIn(params[1], params[2]);
     }
 
     protected void onPostExecute(Boolean result){
@@ -33,8 +34,9 @@ public class LoginAsyncTask extends AsyncTask<String, Void, Boolean> {
             ((TextView) loginActivity.findViewById(R.id.statusView)).setText("Status: Logged in");
             SharedPreferences sharedPreferences = loginActivity.getSharedPreferences("nl.gerben_meijer.gerryflap.musicasa", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("email", params[0]);
-            editor.putString("password", params[1]);
+            editor.putString("domain", params[0]);
+            editor.putString("email", params[1]);
+            editor.putString("password", params[2]);
             editor.apply();
 
         } else {

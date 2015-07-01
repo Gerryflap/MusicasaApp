@@ -2,19 +2,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
     <color
         name="main_color">
-        #ffaa00
+        #00cc00
     </color>
     <color
         name="dark_main_color">
-        #dd9900
+        #007700
     </color>
     <color
         name="accent">
-        #00aaff
+        #888888
     </color>
     <color
         name="dark_accent">
-        #005599
+        #666666
     </color>
     <color name="white">
         #ffffff

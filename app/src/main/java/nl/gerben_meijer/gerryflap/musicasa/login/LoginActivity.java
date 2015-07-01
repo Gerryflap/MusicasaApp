@@ -35,11 +35,13 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         this.findViewById(R.id.loginButton).setOnClickListener(this);
         this.findViewById(R.id.logoutButton).setOnClickListener(this);
         SharedPreferences sharedPreferences = getSharedPreferences("nl.gerben_meijer.gerryflap.musicasa", Context.MODE_PRIVATE);
+        String domain = sharedPreferences.getString("domain", "http://acc.musi.casa:8080/api");
         String email = sharedPreferences.getString("email", "");
         String password = sharedPreferences.getString("password", "");
         ((TextView) this.findViewById(R.id.statusView)).setText(
                 MusicasaAppContext.getInstance().getCommunicator().isLoggedIn()?"Status: Logged in":"Status: Not logged in"
         );
+        ((EditText) this.findViewById(R.id.editServerAddr)).setText(domain);
         ((EditText) this.findViewById(R.id.editEmail)).setText(email);
         ((EditText) this.findViewById(R.id.editPassword)).setText(password);
 
@@ -73,9 +75,10 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     public void onClick(View v) {
         if(v.getId() == R.id.loginButton) {
             LoginAsyncTask task = new LoginAsyncTask(this);
+            String domain = ((EditText) this.findViewById(R.id.editServerAddr)).getText().toString();
             String email = ((EditText) this.findViewById(R.id.editEmail)).getText().toString();
             String password = ((EditText) this.findViewById(R.id.editPassword)).getText().toString();
-            task.execute(email, password);
+            task.execute(domain, email, password);
         }
         if(v.getId() == R.id.logoutButton){
             LogoutAsyncTask task = new LogoutAsyncTask();
